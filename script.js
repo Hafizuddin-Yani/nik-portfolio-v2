@@ -943,74 +943,56 @@ const ProjectModals = {
 // ============================================================================
 // CERTIFICATIONS CAROUSEL
 // ============================================================================
-const CertCarousel = {
+// CERTIFICATIONS SCROLL (drag to scroll)
+// ============================================================================
+const CertScroll = {
   track: null,
-  cards: [],
-  dots: null,
-  prevBtn: null,
-  nextBtn: null,
-  currentIndex: 0,
-  autoPlayInterval: null,
+  isDragging: false,
+  startX: 0,
+  scrollLeft: 0,
 
   init() {
     this.track = $('#certs-track');
-    this.cards = $$('.cert-card', this.track);
-    this.dots = $('#certs-dots');
-    this.prevBtn = $('.carousel-btn.prev');
-    this.nextBtn = $('.carousel-btn.next');
+    if (!this.track) return;
 
-    if (!this.cards.length) return;
+    // Mouse drag
+    this.track.addEventListener('mousedown', this.onDragStart.bind(this));
+    this.track.addEventListener('mousemove', this.onDragMove.bind(this));
+    this.track.addEventListener('mouseup', this.onDragEnd.bind(this));
+    this.track.addEventListener('mouseleave', this.onDragEnd.bind(this));
 
-    this.createDots();
-    this.prevBtn.addEventListener('click', () => this.prev());
-    this.nextBtn.addEventListener('click', () => this.next());
-    this.dots.addEventListener('click', (e) => {
-      if (e.target.classList.contains('carousel-dot')) {
-        this.goTo(parseInt(e.target.dataset.index, 10));
-      }
-    });
+    // Touch drag
+    this.track.addEventListener('touchstart', this.onDragStart.bind(this), { passive: true });
+    this.track.addEventListener('touchmove', this.onDragMove.bind(this), { passive: true });
+    this.track.addEventListener('touchend', this.onDragEnd.bind(this));
 
-    this.startAutoPlay();
-    this.track.addEventListener('mouseenter', () => this.stopAutoPlay());
-    this.track.addEventListener('mouseleave', () => this.startAutoPlay());
-
-    // Touch swipe
-    let startX = 0;
-    this.track.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
-    this.track.addEventListener('touchend', (e) => {
-      const diff = startX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) diff > 0 ? this.next() : this.prev();
-    }, { passive: true });
+    // Click on cards (prevent navigation during drag)
+    this.track.addEventListener('click', (e) => {
+      if (this.isDragging) e.preventDefault();
+    }, true);
   },
 
-  createDots() {
-    this.dots.innerHTML = this.cards.map((_, i) =>
-      `<button class="carousel-dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Go to certification ${i + 1}"></button>`
-    ).join('');
+  onDragStart(e) {
+    if (e.type === 'mousedown' && e.button !== 0) return;
+    this.isDragging = true;
+    this.track.classList.add('dragging');
+    this.startX = (e.touches ? e.touches[0] : e).clientX;
+    this.scrollLeft = this.track.scrollLeft;
+    e.preventDefault();
   },
 
-  goTo(index) {
-    this.currentIndex = clamp(index, 0, this.cards.length - 1);
-    const cardWidth = this.cards[0].offsetWidth + 20; // gap
-    this.track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
-    this.updateDots();
+  onDragMove(e) {
+    if (!this.isDragging) return;
+    const x = (e.touches ? e.touches[0] : e).clientX;
+    const walk = (x - this.startX) * 1.5; // scroll speed multiplier
+    this.track.scrollLeft = this.scrollLeft - walk;
   },
 
-  next() { this.goTo(this.currentIndex + 1); },
-  prev() { this.goTo(this.currentIndex - 1); },
-
-  updateDots() {
-    $$('.carousel-dot', this.dots).forEach((dot, i) => {
-      dot.classList.toggle('active', i === this.currentIndex);
-    });
-  },
-
-  startAutoPlay() {
-    this.stopAutoPlay();
-    this.autoPlayInterval = setInterval(() => this.next(), 5000);
-  },
-
-  stopAutoPlay() { clearInterval(this.autoPlayInterval); }
+  onDragEnd() {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+    this.track.classList.remove('dragging');
+  }
 };
 
 // ============================================================================
@@ -1271,7 +1253,7 @@ document.addEventListener('DOMContentLoaded', () => {
   SkillRadar.init();
   SkillBars.init();
   ProjectModals.init();
-  CertCarousel.init();
+  CertScroll.init();
   Terminal.init();
 
   // Download CV button
