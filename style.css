@@ -2302,6 +2302,270 @@ body {
 
 .toast-text { font-family: var(--font-mono); font-size: 0.85rem; }
 
+/* ===== BOOT PRELOADER ===== */
+.boot-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.boot-preloader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.preloader-content {
+  width: 100%;
+  max-width: 600px;
+  padding: 24px;
+}
+
+.preloader-terminal {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+.preloader-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 20px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+}
+
+.preloader-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.preloader-dot.red { background: #ff4466; }
+.preloader-dot.yellow { background: #ffb800; }
+.preloader-dot.green { background: #00ff88; }
+
+.preloader-title {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-left: 8px;
+}
+
+.preloader-body {
+  padding: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.boot-line {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: bootLineIn 0.3s ease forwards;
+}
+
+.boot-line:nth-child(1) { animation-delay: 0ms; }
+.boot-line:nth-child(2) { animation-delay: 100ms; }
+.boot-line:nth-child(3) { animation-delay: 200ms; }
+.boot-line:nth-child(4) { animation-delay: 300ms; }
+.boot-line:nth-child(5) { animation-delay: 400ms; }
+.boot-line:nth-child(6) { animation-delay: 500ms; }
+.boot-line:nth-child(7) { animation-delay: 600ms; }
+
+@keyframes bootLineIn {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.boot-prefix {
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.boot-text {
+  color: var(--text-secondary);
+}
+
+.preloader-progress {
+  padding: 0 20px 20px;
+}
+
+.preloader-bar {
+  height: 3px;
+  background: var(--bg-secondary);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.preloader-bar::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  animation: preloaderBar 2s ease-in-out infinite;
+}
+
+@keyframes preloaderBar {
+  0% { width: 0%; left: 0; }
+  50% { width: 60%; left: 0; }
+  100% { width: 0%; left: 100%; }
+}
+
+/* ===== REVEAL UTILITIES ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+.reveal-delay-5 { transition-delay: 0.5s; }
+.reveal-delay-6 { transition-delay: 0.6s; }
+
+/* Stagger container */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-stagger.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-stagger > *:nth-child(1) { transition-delay: 0.05s; }
+.reveal-stagger > *:nth-child(2) { transition-delay: 0.1s; }
+.reveal-stagger > *:nth-child(3) { transition-delay: 0.15s; }
+.reveal-stagger > *:nth-child(4) { transition-delay: 0.2s; }
+.reveal-stagger > *:nth-child(5) { transition-delay: 0.25s; }
+.reveal-stagger > *:nth-child(6) { transition-delay: 0.3s; }
+
+/* Decrypt text initial state */
+[data-decrypt] {
+  opacity: 0;
+}
+
+/* Typewriter cursor */
+.typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--accent);
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Split text chars/words */
+.split-char, .split-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.split-word { white-space: nowrap; }
+
+/* Clip-path reveal */
+[data-clip-reveal] > *,
+[data-clip-reveal] p,
+[data-clip-reveal] li {
+  clip-path: inset(0 100% 0 0);
+  opacity: 1;
+}
+
+/* Scramble text */
+[data-scramble] {
+  opacity: 1;
+}
+
+/* Line reveal */
+[data-line-reveal] > *,
+[data-line-reveal] [data-line] {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* ===== REDUCED MOTION OVERRIDES ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .boot-preloader {
+    display: none !important;
+  }
+
+  .reveal,
+  .reveal-stagger > *,
+  [data-decrypt],
+  .split-char,
+  .split-word,
+  [data-line-reveal] > *,
+  [data-line-reveal] [data-line] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    clip-path: none !important;
+  }
+
+  .boot-line {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .preloader-bar::before {
+    animation: none !important;
+    width: 100% !important;
+  }
+
+  .cursor,
+  .cursor-trail-container {
+    display: none !important;
+  }
+
+  .magnetic-ripple {
+    display: none !important;
+  }
+}
+
 /* ===== UTILITIES ===== */
 .visually-hidden {
   position: absolute;
@@ -2316,7 +2580,8 @@ body {
   .navbar, .scroll-progress, .cursor, .bg-layer, .bg-gradient, .scanlines,
   .hero-actions, .hero-socials, .scroll-indicator,
   .project-overlay, .modal, .terminal-overlay, .toast,
-  .carousel-btn, .footer-socials, .btn-icon { display: none !important; }
+  .carousel-btn, .footer-socials, .btn-icon,
+  .boot-preloader { display: none !important; }
   .section { padding: 60px 0; page-break-inside: avoid; }
   body { background: white; color: black; }
   .hero { min-height: auto; padding: 60px 0; }

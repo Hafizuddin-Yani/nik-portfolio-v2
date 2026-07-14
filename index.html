@@ -17,6 +17,24 @@
   <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
 </head>
 <body>
+  <!-- ===== BOOT PRELOADER ===== -->
+  <div id="boot-preloader" class="boot-preloader" aria-hidden="true" role="status" aria-live="polite">
+    <div class="preloader-content">
+      <div class="preloader-terminal">
+        <div class="preloader-header">
+          <span class="preloader-dot red"></span>
+          <span class="preloader-dot yellow"></span>
+          <span class="preloader-dot green"></span>
+          <span class="preloader-title">system.boot</span>
+        </div>
+        <div class="preloader-body" id="boot-messages"></div>
+        <div class="preloader-progress">
+          <div class="preloader-bar" id="preloader-bar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ===== BACKGROUND LAYERS ===== -->
   <canvas id="canvas-particles" class="bg-layer" aria-hidden="true"></canvas>
   <canvas id="canvas-matrix" class="bg-layer" aria-hidden="true"></canvas>
@@ -726,6 +744,11 @@ encryption.<span class="fn">encrypt</span>(message)
   </footer>
 
   <!-- ===== SCRIPTS ===== -->
+  <script type="module" src="js/modules/boot-sequence.js"></script>
+  <script type="module" src="js/modules/scroll-reveal.js"></script>
+  <script type="module" src="js/modules/hero-animations.js"></script>
+  <script type="module" src="js/modules/magnetic-ui.js"></script>
+  <script type="module" src="js/modules/text-fx.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

@@ -1238,23 +1238,12 @@ function showToast(message, type = 'success') {
 // ============================================================================
 // INITIALIZATION
 // ============================================================================
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize all modules
-  Theme.init();
-  Cursor.init();
-  Particles.init();
-  MatrixRain.init();
-  ScrollProgress.init();
-  Navigation.init();
-  SmoothScroll.init();
-  TypingAnimations.init();
-  CounterAnimation.init();
-  ScrollReveal.init();
-  SkillRadar.init();
-  SkillBars.init();
-  ProjectModals.init();
-  CertScroll.init();
-  Terminal.init();
+document.addEventListener('DOMContentLoaded', async () => {
+  // Wait for GSAP to be available
+  await waitForGSAP();
+
+  // Initialize in sequence for proper layering
+  await initSequence();
 
   // Download CV button
   $('#download-cv')?.addEventListener('click', downloadCV);
@@ -1268,6 +1257,80 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('%c Type help() in the terminal (Ctrl+` or click terminal icon) ', 'color:#8892a4;font-style:italic;');
   console.log('%c Built with vanilla JS, CSS variables & ❤️ from Kuala Lumpur ', 'color:#8892a4;font-style:italic;');
 });
+
+function waitForGSAP() {
+  return new Promise(resolve => {
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      resolve();
+      return;
+    }
+    const check = setInterval(() => {
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        clearInterval(check);
+        resolve();
+      }
+    }, 50);
+  });
+}
+
+async function initSequence() {
+  // Phase 1: Boot sequence (runs its own preloader)
+  if (window.BootSequence) {
+    window.BootSequence.init();
+  }
+
+  // Wait for boot to complete
+  await new Promise(resolve => {
+    if (document.body.classList.contains('boot-complete')) {
+      resolve();
+    } else {
+      document.addEventListener('boot:complete', resolve, { once: true });
+      // Fallback timeout
+      setTimeout(resolve, 3000);
+    }
+  });
+
+  // Phase 2: Core systems (parallel)
+  Theme.init();
+  Cursor.init();
+  Particles.init();
+  MatrixRain.init();
+  ScrollProgress.init();
+  Navigation.init();
+  SmoothScroll.init();
+  TypingAnimations.init();
+  CounterAnimation.init();
+
+  // Phase 3: Scroll-triggered animations (need GSAP)
+  if (window.ScrollReveal) {
+    window.ScrollReveal.init();
+  }
+  SkillRadar.init();
+  SkillBars.init();
+
+  // Phase 4: Interactive modules
+  ProjectModals.init();
+  if (window.CertScroll) {
+    window.CertScroll.init();
+  }
+  Terminal.init();
+
+  // Phase 5: Enhanced animations (after boot)
+  if (window.HeroAnimations) {
+    window.HeroAnimations.init();
+  }
+  if (window.MagneticUI) {
+    window.MagneticUI.init();
+  }
+  if (window.TextFX) {
+    window.TextFX.init();
+  }
+
+  // Refresh ScrollTrigger after all content is ready
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.refresh();
+  }
+}
 
 // Expose some functions globally for terminal
 window.downloadCV = downloadCV;
