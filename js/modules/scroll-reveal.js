@@ -319,6 +319,13 @@ const ScrollReveal = (() => {
   };
 })();
 
+// Auto-initialize when module loads (ES modules are deferred, DOM is ready)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => ScrollReveal.init());
+} else {
+  ScrollReveal.init();
+}
+
 // Expose globally for script.js
 window.ScrollReveal = ScrollReveal;
 

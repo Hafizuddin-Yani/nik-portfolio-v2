@@ -239,6 +239,13 @@ const HeroAnimations = (function() {
   return { init, destroy };
 })();
 
+// Auto-initialize when module loads
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => HeroAnimations.init());
+} else {
+  HeroAnimations.init();
+}
+
 // Expose globally for script.js
 window.HeroAnimations = HeroAnimations;
 

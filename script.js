@@ -1343,11 +1343,8 @@ function showToast(message, type = 'success') {
 // INITIALIZATION
 // ============================================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  // Give optional animation libraries a short chance to load without blocking the site forever.
-  const animationsReady = await waitForGSAP();
-
   // Initialize in sequence for proper layering
-  await initSequence(animationsReady);
+  await initSequence();
 
   // Download CV button
   $('#download-cv')?.addEventListener('click', downloadCV);
@@ -1362,40 +1359,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   console.log('%c Built with vanilla JS, CSS variables & ❤️ from Kuala Lumpur ', 'color:#8892a4;font-style:italic;');
 });
 
-function waitForGSAP(timeout = 3000) {
-  return new Promise(resolve => {
-    const ready = () => typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
-    if (ready()) return resolve(true);
-
-    let settled = false;
-    const finish = (loaded) => {
-      if (settled) return;
-      settled = true;
-      clearInterval(check);
-      clearTimeout(timeoutId);
-      resolve(loaded);
-    };
-
-    const check = setInterval(() => {
-      if (ready()) finish(true);
-    }, 50);
-    const timeoutId = setTimeout(() => finish(false), timeout);
-  });
-}
-
-async function initSequence(animationsReady) {
+async function initSequence() {
   // Phase 1: Boot sequence (runs its own preloader)
-  const canRunBootSequence = animationsReady && window.BootSequence;
-  if (canRunBootSequence) {
-    window.BootSequence.init();
-  } else {
-    $('#boot-preloader')?.remove();
-    document.body.classList.add('boot-complete');
-    document.dispatchEvent(new CustomEvent('boot:complete'));
-  }
-
+  // BootSequence module auto-initializes on DOMContentLoaded
   // Wait for boot to complete
-  if (canRunBootSequence) {
+  if (document.body.classList.contains('boot-complete')) {
+    // Already complete
+  } else {
     await new Promise(resolve => {
       if (document.body.classList.contains('boot-complete')) {
         resolve();
@@ -1439,9 +1409,7 @@ async function initSequence(animationsReady) {
   }
 
   // Phase 3: Scroll-triggered animations (need GSAP)
-  if (animationsReady && window.ScrollReveal) {
-    window.ScrollReveal.init();
-  }
+  // ScrollReveal, HeroAnimations, MagneticUI, TextFX auto-initialize via ES modules
   SkillRadar.init();
   SkillBars.init();
 
@@ -1451,17 +1419,6 @@ async function initSequence(animationsReady) {
     window.CertScroll.init();
   }
   Terminal.init();
-
-  // Phase 5: Enhanced animations (after boot)
-  if (animationsReady && window.HeroAnimations) {
-    window.HeroAnimations.init();
-  }
-  if (animationsReady && window.MagneticUI) {
-    window.MagneticUI.init();
-  }
-  if (animationsReady && window.TextFX) {
-    window.TextFX.init();
-  }
 
   // Refresh ScrollTrigger after all content is ready
   if (typeof ScrollTrigger !== 'undefined') {

@@ -244,6 +244,13 @@ const MagneticUI = (function() {
   return { init, destroy };
 })();
 
+// Auto-initialize when module loads
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => MagneticUI.init());
+} else {
+  MagneticUI.init();
+}
+
 // Expose globally for script.js
 window.MagneticUI = MagneticUI;
 

@@ -285,6 +285,13 @@ const TextFX = (function() {
   };
 })();
 
+// Auto-initialize when module loads
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => TextFX.init());
+} else {
+  TextFX.init();
+}
+
 // Expose globally for script.js
 window.TextFX = TextFX;
 

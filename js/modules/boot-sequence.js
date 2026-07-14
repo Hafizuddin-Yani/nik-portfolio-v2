@@ -203,6 +203,13 @@ const BootSequence = (function() {
   return { init };
 })();
 
+// Auto-initialize when module loads
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => BootSequence.init());
+} else {
+  BootSequence.init();
+}
+
 // Expose globally for script.js
 window.BootSequence = BootSequence;
 
