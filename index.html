@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Nik Hafizuddin Yani — Cybersecurity & IT Professional. Secure mobile development, network infrastructure, SOC operations." />
+  <meta name="theme-color" content="#0a0e17" />
+  <base href="/nik-portfolio-v2/" />
+  <title>Nik Hafizuddin Yani | Cybersecurity & IT Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+</head>
+<body>
+  <!-- ===== BACKGROUND LAYERS ===== -->
+  <canvas id="canvas-particles" class="bg-layer" aria-hidden="true"></canvas>
+  <canvas id="canvas-matrix" class="bg-layer" aria-hidden="true"></canvas>
+  <div class="bg-gradient" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- ===== CUSTOM CURSOR ===== -->
+  <div id="custom-cursor" class="cursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+    <div class="cursor-text"></div>
+  </div>
+
+  <!-- ===== PROGRESS BAR ===== -->
+  <progress id="scroll-progress" class="scroll-progress" value="0" max="100" aria-hidden="true"></progress>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container nav-container">
+      <a href="#hero" class="nav-logo" aria-label="Home">
+        <span class="logo-bracket"><</span>NY<span class="logo-bracket">/></span>
+      </a>
+
+      <div class="nav-center">
+        <ul class="nav-menu" role="menubar">
+          <li role="none"><a href="#about" class="nav-link" role="menuitem" data-section="about">About</a></li>
+          <li role="none"><a href="#skills" class="nav-link" role="menuitem" data-section="skills">Skills</a></li>
+          <li role="none"><a href="#experience" class="nav-link" role="menuitem" data-section="experience">Experience</a></li>
+          <li role="none"><a href="#projects" class="nav-link" role="menuitem" data-section="projects">Projects</a></li>
+          <li role="none"><a href="#education" class="nav-link" role="menuitem" data-section="education">Education</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="btn-icon" aria-label="Toggle theme" aria-pressed="false">
+          <i class="fas fa-sun" aria-hidden="true"></i>
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </button>
+        <button id="terminal-toggle" class="btn-icon" aria-label="Open terminal" aria-expanded="false">
+          <i class="fas fa-terminal" aria-hidden="true"></i>
+        </button>
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-menu">
+          <span class="hamburger"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== TERMINAL EASTER EGG ===== -->
+  <div id="terminal-overlay" class="terminal-overlay" role="dialog" aria-modal="true" aria-label="Interactive terminal">
+    <div class="terminal-window">
+      <div class="terminal-header">
+        <div class="terminal-controls">
+          <span class="control close" aria-hidden="true"></span>
+          <span class="control minimize" aria-hidden="true"></span>
+          <span class="control maximize" aria-hidden="true"></span>
+        </div>
+        <div class="terminal-title">terminal@nik-hafizuddin:~$</div>
+        <button class="terminal-close" aria-label="Close terminal"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="terminal-body" id="terminal-body">
+        <div class="terminal-line">
+          <span class="prompt">nik@portfolio:~$</span>
+          <span class="cursor-blink">_</span>
+        </div>
+      </div>
+      <div class="terminal-input-wrapper">
+        <span class="prompt">nik@portfolio:~$</span>
+        <input type="text" id="terminal-input" class="terminal-input" autocomplete="off" spellcheck="false" aria-label="Terminal command input" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section id="hero" class="section hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <p class="hero-greeting" aria-hidden="true">> <span class="typing-greeting"></span></p>
+
+          <h1 id="hero-title" class="hero-name">
+            <span class="name-line">Nik Hafizuddin</span>
+            <span class="name-line">Bin N Ahmad Yani</span>
+          </h1>
+
+          <div class="hero-role">
+            <span class="role-prefix" aria-hidden="true">[ </span>
+            <span class="role-text" id="role-text"></span>
+            <span class="role-cursor" aria-hidden="true">|</span>
+            <span class="role-suffix" aria-hidden="true"> ]</span>
+          </div>
+
+          <p class="hero-tagline">Cybersecurity & IT Graduate • Secure Mobile Dev • Network Infrastructure • SOC Operations</p>
+
+          <div class="hero-meta">
+            <div class="meta-item">
+              <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+              <span>Kuala Lumpur, Malaysia</span>
+            </div>
+            <div class="meta-item">
+              <i class="fas fa-envelope" aria-hidden="true"></i>
+              <a href="mailto:hafizuddinyani@gmail.com">hafizuddinyani@gmail.com</a>
+            </div>
+            <div class="meta-item">
+              <i class="fas fa-phone" aria-hidden="true"></i>
+              <a href="tel:+601119903157">+6011-1990 3157</a>
+            </div>
+            <div class="meta-item">
+              <i class="fas fa-clock" aria-hidden="true"></i>
+              <span>Available Immediately</span>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">
+              <span>View Projects</span>
+              <i class="fas fa-arrow-right" aria-hidden="true"></i>
+            </a>
+            <a href="#contact" class="btn btn-secondary">
+              <span>Get In Touch</span>
+              <i class="fas fa-paper-plane" aria-hidden="true"></i>
+            </a>
+            <button class="btn btn-ghost" id="download-cv" aria-label="Download CV">
+              <i class="fas fa-download" aria-hidden="true"></i>
+              <span>Download CV</span>
+            </button>
+          </div>
+
+          <div class="hero-socials">
+            <a href="https://github.com/Hafizuddin-Yani" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+              <i class="fab fa-github" aria-hidden="true"></i>
+              <span>GitHub</span>
+            </a>
+            <a href="https://www.linkedin.com/in/nik-hafizuddin-yani-2288362a3/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+              <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+              <span>LinkedIn</span>
+            </a>
+            <a href="https://hafizuddin-yani.github.io" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Portfolio">
+              <i class="fas fa-globe" aria-hidden="true"></i>
+              <span>Portfolio</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-card-stack" aria-hidden="true">
+            <div class="hero-card card-1">
+              <div class="card-glow"></div>
+              <div class="card-content">
+                <div class="card-header">
+                  <span class="card-dot red" aria-hidden="true"></span>
+                  <span class="card-dot yellow" aria-hidden="true"></span>
+                  <span class="card-dot green" aria-hidden="true"></span>
+                </div>
+                <pre class="card-code"><code>const encryption = <span class="kw">new</span> E2EE({
+  keyExchange: <span class="str">'X25519'</span>,
+  cipher: <span class="str">'ChaCha20-Poly1305'</span>,
+  forwardSecrecy: <span class="kw">true</span>
+});
+
+encryption.<span class="fn">encrypt</span>(message)
+  .<span class="fn">then</span>(sendSecurely);</code></pre>
+              </div>
+            </div>
+            <div class="hero-card card-2">
+              <div class="card-glow"></div>
+              <div class="card-content">
+                <div class="card-header">
+                  <span class="card-dot red" aria-hidden="true"></span>
+                  <span class="card-dot yellow" aria-hidden="true"></span>
+                  <span class="card-dot green" aria-hidden="true"></span>
+                </div>
+                <div class="card-terminal">
+                  <div class="term-line"><span class="prompt">nik@lab:~$</span> <span class="cmd">nmap -sS -A target</span></div>
+                  <div class="term-line"><span class="out">PORT     STATE SERVICE</span></div>
+                  <div class="term-line"><span class="out">22/tcp   open  ssh</span></div>
+                  <div class="term-line"><span class="out">443/tcp  open  https</span></div>
+                  <div class="term-line"><span class="out">3306/tcp open  mysql</span></div>
+                  <div class="term-line"><span class="prompt">nik@lab:~$</span> <span class="cursor-blink">_</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="hero-card card-3">
+              <div class="card-glow"></div>
+              <div class="card-content">
+                <div class="card-header">
+                  <span class="card-dot red" aria-hidden="true"></span>
+                  <span class="card-dot yellow" aria-hidden="true"></span>
+                  <span class="card-dot green" aria-hidden="true"></span>
+                </div>
+                <div class="card-metrics">
+                  <div class="metric">
+                    <span class="metric-value" data-count="500">0</span>
+                    <span class="metric-label">Endpoints Migrated</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-value" data-count="30">0</span>
+                    <span class="metric-label">% Time Reduced</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-value" data-count="15">0</span>
+                    <span class="metric-label">Bugs Resolved</span>
+                  </div>
+                  <div class="metric">
+                    <span class="metric-value" data-count="100">0</span>
+                    <span class="metric-label">Clients Served</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scroll-indicator" aria-hidden="true">
+            <svg class="mouse" viewBox="0 0 24 40" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="1" y="1" width="22" height="38" rx="11"/>
+              <circle cx="12" cy="10" r="2" fill="currentColor">
+                <animate attributeName="cy" from="10" to="25" dur="1.5s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" from="1" to="0" dur="1.5s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+            <span>Scroll to explore</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT SECTION ===== -->
+  <section id="about" class="section" aria-labelledby="about-title">
+    <div class="container">
+      <header class="section-header">
+        <span class="section-tag">01</span>
+        <h2 id="about-title" class="section-title">About Me</h2>
+        <p class="section-subtitle">Who I am and what drives me</p>
+        <div class="section-divider"><span></span></div>
+      </header>
+
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>Cybersecurity and Information Technology graduate (B.Sc. Hons) with hands-on experience in <strong>system engineering</strong>, <strong>secure mobile development</strong>, and <strong>network infrastructure</strong>.</p>
+          <p>Proven ability to execute enterprise-scale IT operations, including complex hardware migrations across <strong>500+ endpoints</strong> for national utility providers. Certified in <strong>Red Hat (RH124)</strong> and <strong>Cisco (CCNA)</strong>, with practical knowledge of vulnerability assessment, cryptographic protocols, and incident response methodologies.</p>
+          <p>Currently pursuing <strong>CompTIA Security+</strong> certification. Seeking to leverage technical expertise in a <strong>SOC Analyst</strong>, <strong>Cloud Infrastructure</strong>, or <strong>Software Engineering</strong> role.</p>
+        </div>
+
+        <div class="about-highlights reveal">
+          <div class="highlight-card">
+            <div class="highlight-icon"><i class="fas fa-shield-alt" aria-hidden="true"></i></div>
+            <div class="highlight-content">
+              <h3>Security-First Mindset</h3>
+              <p>Built E2EE messaging app with X25519 + ChaCha20-Poly1305. Home lab with Wazuh SIEM & MITRE ATT&CK mapping.</p>
+            </div>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon"><i class="fas fa-server" aria-hidden="true"></i></div>
+            <div class="highlight-content">
+              <h3>Infrastructure & Ops</h3>
+              <p>Enterprise hardware refresh for TNB & MOE (500+ devices). Robocopy automation achieving zero data loss.</p>
+            </div>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon"><i class="fas fa-code" aria-hidden="true"></i></div>
+            <div class="highlight-content">
+              <h3>Full-Stack Development</h3>
+              <p>Flutter/Dart, Python, C++, Firebase. Legacy system modernization. SDLC collaboration across teams.</p>
+            </div>
+          </div>
+          <div class="highlight-card">
+            <div class="highlight-icon"><i class="fas fa-microchip" aria-hidden="true"></i></div>
+            <div class="highlight-content">
+              <h3>Hardware & IoT</h3>
+              <p>Custom PC builds (100+ clients). Arduino IoT flood detection with Firebase real-time sync. Gold medal at PIP Competition.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SKILLS SECTION ===== -->
+  <section id="skills" class="section section-alt" aria-labelledby="skills-title">
+    <div class="container">
+      <header class="section-header">
+        <span class="section-tag">02</span>
+        <h2 id="skills-title" class="section-title">Technical Skills</h2>
+        <p class="section-subtitle">Tools, languages & frameworks I work with</p>
+        <div class="section-divider"><span></span></div>
+      </header>
+
+      <div class="skills-layout">
+        <div class="skills-radar-wrap reveal">
+          <h3 class="radar-title">Skill Radar</h3>
+          <canvas id="skill-radar" class="skill-radar" aria-label="Skill proficiency radar chart" width="400" height="400"></canvas>
+          <div class="radar-legend" id="radar-legend"></div>
+        </div>
+
+        <div class="skills-categories">
+          <div class="skill-category reveal" data-category="languages">
+            <div class="category-header">
+              <i class="fas fa-code" aria-hidden="true"></i>
+              <h3>Languages</h3>
+            </div>
+            <div class="skill-bars" id="skills-languages"></div>
+          </div>
+
+          <div class="skill-category reveal" data-category="security">
+            <div class="category-header">
+              <i class="fas fa-shield-halved" aria-hidden="true"></i>
+              <h3>Offensive Security & OSINT</h3>
+            </div>
+            <div class="skill-bars" id="skills-security"></div>
+          </div>
+
+          <div class="skill-category reveal" data-category="network">
+            <div class="category-header">
+              <i class="fas fa-network-wired" aria-hidden="true"></i>
+              <h3>Network & Vulnerability Analysis</h3>
+            </div>
+            <div class="skill-bars" id="skills-network"></div>
+          </div>
+
+          <div class="skill-category reveal" data-category="siem">
+            <div class="category-header">
+              <i class="fas fa-chart-line" aria-hidden="true"></i>
+              <h3>SIEM & Monitoring</h3>
+            </div>
+            <div class="skill-bars" id="skills-siem"></div>
+          </div>
+
+          <div class="skill-category reveal" data-category="hardware">
+            <div class="category-header">
+              <i class="fas fa-microchip" aria-hidden="true"></i>
+              <h3>Hardware & IT Operations</h3>
+            </div>
+            <div class="skill-bars" id="skills-hardware"></div>
+          </div>
+
+          <div class="skill-category reveal" data-category="devtools">
+            <div class="category-header">
+              <i class="fas fa-tools" aria-hidden="true"></i>
+              <h3>Development Tools</h3>
+            </div>
+            <div class="skill-bars" id="skills-devtools"></div>
+          </div>
+
+          <div class="skill-category reveal" data-category="os">
+            <div class="category-header">
+              <i class="fas fa-desktop" aria-hidden="true"></i>
+              <h3>Operating Systems</h3>
+            </div>
+            <div class="skill-bars" id="skills-os"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EXPERIENCE SECTION ===== -->
+  <section id="experience" class="section" aria-labelledby="experience-title">
+    <div class="container">
+      <header class="section-header">
+        <span class="section-tag">03</span>
+        <h2 id="experience-title" class="section-title">Professional Experience</h2>
+        <p class="section-subtitle">My journey through tech</p>
+        <div class="section-divider"><span></span></div>
+      </header>
+
+      <div class="timeline" role="list" aria-label="Work experience timeline">
+        <div class="timeline-item reveal" role="listitem">
+          <div class="timeline-marker" aria-hidden="true">
+            <span class="marker-dot"></span>
+            <span class="marker-pulse"></span>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div>
+                <h3 class="timeline-role">System Engineer Intern (PMO Team)</h3>
+                <p class="timeline-company"><i class="fas fa-building" aria-hidden="true"></i> Beyond2u Sdn Bhd — Kuala Lumpur</p>
+              </div>
+              <span class="timeline-date">Mar 2026 – Jun 2026</span>
+            </div>
+            <ul class="timeline-details">
+              <li>Executed enterprise-wide hardware refresh & data migration for <strong>Tenaga Nasional Berhad (TNB)</strong> & <strong>Ministry of Education (MOE)</strong> — <strong>500+ endpoints</strong> across multiple sites</li>
+              <li>Automated high-speed secure backups using <strong>Robocopy scripting</strong> — <strong>zero data loss</strong>, ~<strong>30% faster</strong> migration</li>
+              <li>Provided Tier-2 support, coordinated directly with end-users — reduced avg. resolution time & minimized downtime</li>
+            </ul>
+            <div class="timeline-tech">
+              <span>Robocopy</span><span>Windows Server</span><span>Active Directory</span><span>Data Migration</span><span>Tier-2 Support</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal" role="listitem">
+          <div class="timeline-marker" aria-hidden="true">
+            <span class="marker-dot"></span>
+            <span class="marker-pulse"></span>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div>
+                <h3 class="timeline-role">Software Engineer Intern</h3>
+                <p class="timeline-company"><i class="fas fa-building" aria-hidden="true"></i> PKINK — Kota Bharu, Kelantan</p>
+              </div>
+              <span class="timeline-date">Feb 2023 – Jun 2023</span>
+            </div>
+            <ul class="timeline-details">
+              <li>Maintained & optimized internal corporate databases & legacy systems — resolved <strong>15+ user-reported bugs</strong>, reduced latency</li>
+              <li>Collaborated with senior engineers across full <strong>SDLC</strong> — testing, deployment, documentation for enterprise applications</li>
+            </ul>
+            <div class="timeline-tech">
+              <span>SQL</span><span>Legacy Modernization</span><span>SDLC</span><span>Testing</span><span>Documentation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal" role="listitem">
+          <div class="timeline-marker" aria-hidden="true">
+            <span class="marker-dot"></span>
+            <span class="marker-pulse"></span>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div>
+                <h3 class="timeline-role">IT Technician & Tech Advisor</h3>
+                <p class="timeline-company"><i class="fas fa-building" aria-hidden="true"></i> Monaliza (IT Retailer) — Kota Bharu, Kelantan</p>
+              </div>
+              <span class="timeline-date">Sep 2019 – Dec 2019</span>
+            </div>
+            <ul class="timeline-details">
+              <li>Diagnosed hardware failures, performed <strong>custom PC assemblies</strong>, optimized BIOS/UEFI configs for <strong>100+ clients</strong></li>
+              <li>Maintained high customer satisfaction rate through technical consulting & post-sale support</li>
+            </ul>
+            <div class="timeline-tech">
+              <span>Hardware Diagnostics</span><span>PC Assembly</span><span>BIOS/UEFI</span><span>Customer Support</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROJECTS SECTION ===== -->
+  <section id="projects" class="section section-alt" aria-labelledby="projects-title">
+    <div class="container">
+      <header class="section-header">
+        <span class="section-tag">04</span>
+        <h2 id="projects-title" class="section-title">Technical Projects</h2>
+        <p class="section-subtitle">Selected work demonstrating depth & breadth</p>
+        <div class="section-divider"><span></span></div>
+      </header>
+
+      <div class="projects-grid" role="list">
+        <article class="project-card reveal" role="listitem" data-project="secure-messaging">
+          <div class="project-visual">
+            <div class="project-glow"></div>
+            <div class="project-icon"><i class="fas fa-lock" aria-hidden="true"></i></div>
+            <div class="project-overlay">
+              <a href="#" class="project-link" aria-label="View source code"><i class="fab fa-github" aria-hidden="true"></i></a>
+              <button class="project-link" data-modal="secure-messaging" aria-label="View details"><i class="fas fa-expand" aria-hidden="true"></i></button>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="project-meta">
+              <span class="project-type">Security / Mobile</span>
+              <span class="project-date">Oct 2025 – Jan 2026</span>
+            </div>
+            <h3 class="project-title">Secure Mobile Messaging (E2EE)</h3>
+            <p class="project-desc">Cross-platform secure messaging app with threat modeling against MitM & replay attacks. Hybrid E2EE: X25519 key exchange + ChaCha20-Poly1305 AEAD.</p>
+            <div class="project-tech">
+              <span>Flutter</span><span>Dart</span><span>X25519</span><span>ChaCha20-Poly1305</span><span>Firebase</span>
+            </div>
+            <ul class="project-highlights">
+              <li>Forward secrecy & message integrity verification</li>
+              <li>Secure local key storage (Android Keystore / iOS Keychain)</li>
+              <li>Replay attack prevention via message sequencing</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card reveal" role="listitem" data-project="security-lab">
+          <div class="project-visual">
+            <div class="project-glow"></div>
+            <div class="project-icon"><i class="fas fa-flask" aria-hidden="true"></i></div>
+            <div class="project-overlay">
+              <a href="#" class="project-link" aria-label="View source code"><i class="fab fa-github" aria-hidden="true"></i></a>
+              <button class="project-link" data-modal="security-lab" aria-label="View details"><i class="fas fa-expand" aria-hidden="true"></i></button>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="project-meta">
+              <span class="project-type">Security Lab / SIEM</span>
+              <span class="project-date">2025 – Present</span>
+            </div>
+            <h3 class="project-title">Home Security Lab Environment</h3>
+            <p class="project-desc">Virtualized attack/defense lab: network recon, vuln scanning, log-based threat detection. Wazuh SIEM with custom MITRE ATT&CK detection rules (T1059, T1078, T1003, T1566).</p>
+            <div class="project-tech">
+              <span>VirtualBox</span><span>Kali Linux</span><span>Wazuh</span><span>ELK Stack</span><span>MITRE ATT&CK</span>
+            </div>
+            <ul class="project-highlights">
+              <li>Custom detection rules aligned to MITRE techniques</li>
+              <li>Centralized log ingestion from multiple agents</li>
+              <li>Automated alerting via webhook integrations</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card reveal" role="listitem" data-project="iot-water">
+          <div class="project-visual">
+            <div class="project-glow"></div>
+            <div class="project-icon"><i class="fas fa-water" aria-hidden="true"></i></div>
+            <div class="project-overlay">
+              <a href="#" class="project-link" aria-label="View source code"><i class="fab fa-github" aria-hidden="true"></i></a>
+              <button class="project-link" data-modal="iot-water" aria-label="View details"><i class="fas fa-expand" aria-hidden="true"></i></button>
+            </div>
+          </div>
+          <div class="project-content">
+            <div class="project-meta">
+              <span class="project-type">IoT / Embedded</span>
+              <span class="project-date">2022</span>
+            </div>
+            <h3 class="project-title">IoT Water Level Detection System</h3>
+            <p class="project-desc">Real-time flood early-warning system: Arduino + ultrasonic sensors → Firebase Realtime DB → mobile alerts. Sub-second latency threshold notifications.</p>
+            <div class="project-tech">
+              <span>Arduino</span><span>C++</span><span>Firebase</span><span>Ultrasonic Sensor</span>
+            </div>
+            <ul class="project-highlights">
+              <li>Gold Medal — PIP Learning Innovation Competition (BOARDPi-KIT)</li>
+              <li>Remote monitoring dashboard with historical data</li>
+              <li>Configurable alert thresholds via mobile app</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROJECT MODALS ===== -->
+  <div id="project-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-backdrop" aria-hidden="true"></div>
+    <div class="modal-window">
+      <button class="modal-close" aria-label="Close modal"><i class="fas fa-times" aria-hidden="true"></i></button>
+      <div class="modal-content" id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- ===== EDUCATION SECTION ===== -->
+  <section id="education" class="section" aria-labelledby="education-title">
+    <div class="container">
+      <header class="section-header">
+        <span class="section-tag">05</span>
+        <h2 id="education-title" class="section-title">Education</h2>
+        <p class="section-subtitle">Academic foundation</p>
+        <div class="section-divider"><span></span></div>
+      </header>
+
+      <div class="education-timeline">
+        <article class="edu-item reveal">
+          <div class="edu-marker" aria-hidden="true"></div>
+          <div class="edu-content">
+            <div class="edu-icon"><i class="fas fa-graduation-cap" aria-hidden="true"></i></div>
+            <h3>Bachelor of Information Technology (Hons)</h3>
+            <p class="edu-field">Computer System Security</p>
+            <p class="edu-school">Universiti Kuala Lumpur (MIIT) — Kuala Lumpur</p>
+            <p class="edu-year">2026</p>
+            <div class="edu-details">
+              <span>Capstone: Secure Mobile Messaging (E2EE)</span>
+              <span>CGPA: 3.42</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="edu-item reveal">
+          <div class="edu-marker" aria-hidden="true"></div>
+          <div class="edu-content">
+            <div class="edu-icon"><i class="fas fa-graduation-cap" aria-hidden="true"></i></div>
+            <h3>Diploma in Information Technology</h3>
+            <p class="edu-field">CGPA: 3.57</p>
+            <p class="edu-school">Universiti Kuala Lumpur (MIIT) — Kuala Lumpur</p>
+            <p class="edu-year">2024</p>
+            <div class="edu-details">
+              <span>Focus: Networking, Programming, Database Systems</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="edu-item reveal">
+          <div class="edu-marker" aria-hidden="true"></div>
+          <div class="edu-content">
+            <div class="edu-icon"><i class="fas fa-graduation-cap" aria-hidden="true"></i></div>
+            <h3>Certificate in Information Technology</h3>
+            <p class="edu-field">CGPA: 3.78</p>
+            <p class="edu-school">Kolej Komuniti Gerik — Perak</p>
+            <p class="edu-year">2020</p>
+            <div class="edu-details">
+              <span>Foundation: Computer Fundamentals, Programming Basics</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CERTIFICATIONS SECTION ===== -->
+  <section id="certifications" class="section section-alt" aria-labelledby="certifications-title">
+    <div class="container">
+      <header class="section-header">
+        <span class="section-tag">06</span>
+        <h2 id="certifications-title" class="section-title">Certifications & Achievements</h2>
+        <p class="section-subtitle">Validated expertise & recognition</p>
+        <div class="section-divider"><span></span></div>
+      </header>
+
+      <div class="certs-carousel">
+        <div class="certs-track" id="certs-track">
+          <article class="cert-card reveal">
+            <div class="cert-badge"><i class="fas fa-certificate" aria-hidden="true"></i></div>
+            <h3>Red Hat System Administration I (RH124)</h3>
+            <p class="cert-issuer">Red Hat</p>
+            <p class="cert-desc">Linux administration fundamentals: CLI, storage, networking, security</p>
+          </article>
+
+          <article class="cert-card reveal">
+            <div class="cert-badge"><i class="fas fa-certificate" aria-hidden="true"></i></div>
+            <h3>Cisco CCNA: Introduction to Networks</h3>
+            <p class="cert-issuer">Cisco Networking Academy</p>
+            <p class="cert-desc">Networking basics: OSI/TCP-IP, IPv4/IPv6, switching, routing, wireless</p>
+          </article>
+
+          <article class="cert-card reveal">
+            <div class="cert-badge in-progress"><i class="fas fa-hourglass-half" aria-hidden="true"></i></div>
+            <h3>CompTIA Security+</h3>
+            <p class="cert-issuer">CompTIA</p>
+            <p class="cert-desc">In progress — Expected 2026. Threats, vulnerabilities, architecture, operations</p>
+          </article>
+
+          <article class="cert-card reveal">
+            <div class="cert-badge gold"><i class="fas fa-medal" aria-hidden="true"></i></div>
+            <h3>Gold Medal — PIP Learning Innovation</h3>
+            <p class="cert-issuer">International Competition</p>
+            <p class="cert-desc">BOARDPi-KIT: IoT STEM Framework for education</p>
+          </article>
+
+          <article class="cert-card reveal">
+            <div class="cert-badge"><i class="fas fa-users" aria-hidden="true"></i></div>
+            <h3>President, Student Representative Council</h3>
+            <p class="cert-issuer">Leadership Role</p>
+            <p class="cert-desc">Led state-level technical & welfare initiatives, managed student body</p>
+          </article>
+        </div>
+        <button class="carousel-btn prev" aria-label="Previous certification"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+        <button class="carousel-btn next" aria-label="Next certification"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+        <div class="carousel-dots" id="certs-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT / FOOTER ===== -->
+  <footer id="contact" class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <a href="#hero" class="footer-logo"><span class="logo-bracket"><</span>NY<span class="logo-bracket">/></span></a>
+          <p class="footer-tagline">Building secure systems, one line at a time.</p>
+          <div class="footer-socials">
+            <a href="https://github.com/Hafizuddin-Yani" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/in/nik-hafizuddin-yani-2288362a3/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+            <a href="https://hafizuddin-yani.github.io" target="_blank" rel="noopener noreferrer" aria-label="Portfolio"><i class="fas fa-globe" aria-hidden="true"></i></a>
+            <a href="mailto:hafizuddinyani@gmail.com" aria-label="Email"><i class="fas fa-envelope" aria-hidden="true"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Navigate</h4>
+            <ul>
+              <li><a href="#about">About</a></li>
+              <li><a href="#skills">Skills</a></li>
+              <li><a href="#experience">Experience</a></li>
+              <li><a href="#projects">Projects</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Connect</h4>
+            <ul>
+              <li><a href="mailto:hafizuddinyani@gmail.com">Email Me</a></li>
+              <li><a href="tel:+601119903157">Call Me</a></li>
+              <li><a href="https://www.linkedin.com/in/nik-hafizuddin-yani-2288362a3/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+              <li><a href="https://github.com/Hafizuddin-Yani" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Quick Facts</h4>
+            <ul class="footer-facts">
+              <li><i class="fas fa-id-card" aria-hidden="true"></i> Driving: Class B2, D</li>
+              <li><i class="fas fa-language" aria-hidden="true"></i> Malay (Native), English</li>
+              <li><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Kuala Lumpur, Malaysia</li>
+              <li><i class="fas fa-clock" aria-hidden="true"></i> Available Immediately</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">&copy; 2026 Nik Hafizuddin Bin N Ahmad Yani. Crafted with <i class="fas fa-heart" aria-hidden="true"></i> & vanilla JS.</p>
+        <div class="footer-terminal">
+          <span class="prompt">nik@portfolio:~$</span>
+          <span class="cmd">echo "Thanks for visiting!"</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="script.js"></script>
+</body>
+</html>

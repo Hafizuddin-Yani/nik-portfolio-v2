@@ -1,0 +1,155 @@
+\documentclass[a4paper,10pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=0.6in}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+% Formatting
+\setlist{nosep} % Removes vertical spacing around lists
+\titleformat{\section}{\large\bfseries\uppercase}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{1.2\baselineskip}{0.8\baselineskip}
+
+% Hyperlink Setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=black,
+}
+
+\begin{document}
+\pagestyle{empty}
+
+%-------------------------------------------------------------------------------
+% Header (ATS-Friendly: No photo, clean single-column layout)
+%-------------------------------------------------------------------------------
+\begin{center}
+    {\textbf{\huge NIK HAFIZUDDIN BIN N AHMAD YANI}}\\[6pt]
+    Kuala Lumpur, Malaysia \enspace$\vert$\enspace \href{mailto:hafizuddinyani@gmail.com}{hafizuddinyani@gmail.com} \enspace$\vert$\enspace +6011-1990 3157 \\[2pt]
+    \href{https://www.linkedin.com/in/nik-hafizuddin-yani-2288362a3/}{LinkedIn: /in/nik-hafizuddin-yani} \enspace$\vert$\enspace \href{https://github.com/Hafizuddin-Yani}{GitHub: /Hafizuddin-Yani} \enspace$\vert$\enspace \href{https://hafizuddin-yani.github.io}{Portfolio: hafizuddin-yani.github.io}
+\end{center}
+
+\vspace{0.8em}
+
+%-------------------------------------------------------------------------------
+% Career Profile
+%-------------------------------------------------------------------------------
+\section*{Career Profile}
+\noindent
+Cybersecurity and Information Technology graduate (B.Sc. Hons) with hands-on experience in system engineering, secure mobile development, and network infrastructure. Proven ability to execute enterprise-scale IT operations, including complex hardware migrations across 500+ endpoints for national utility providers. Certified in Red Hat (RH124) and Cisco (CCNA), with practical knowledge of vulnerability assessment, cryptographic protocols, and incident response methodologies. Seeking to leverage technical expertise in a SOC Analyst, Cloud Infrastructure, or Software Engineering role.
+
+%-------------------------------------------------------------------------------
+% Technical Skills
+%-------------------------------------------------------------------------------
+\section*{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+    \item \textbf{Languages:} Dart, Python, C++, HTML/CSS, PHP, Java, Bash, PowerShell
+    \item \textbf{Offensive Security \& OSINT:} Metasploit, Nmap, Burp Suite, OWASP ZAP, Maltego, MITRE ATT\&CK Framework
+    \item \textbf{Network \& Vulnerability Analysis:} Wireshark, Nessus, tcpdump, Cisco IOS, Firewall Configuration
+    \item \textbf{SIEM \& Monitoring:} Wazuh, ELK Stack, Log Analysis, Incident Triage
+    \item \textbf{Hardware \& IT Operations:} PC/Laptop Assembly, Component-Level Diagnostics, BIOS/UEFI Optimization
+    \item \textbf{Development Tools:} Git, VS Code, Flutter SDK, Firebase, AI-Assisted Development Workflows
+    \item \textbf{Operating Systems:} Linux (Kali, Ubuntu, Red Hat), Windows Server, macOS
+\end{itemize}
+
+%-------------------------------------------------------------------------------
+% Professional Experience
+%-------------------------------------------------------------------------------
+\section*{Professional Experience}
+
+\noindent
+\textbf{Beyond2u Sdn Bhd} \hfill Kuala Lumpur, Malaysia \\
+\textit{System Engineer Intern (PMO Team)} \hfill Mar 2026 -- Jun 2026
+\begin{itemize}[leftmargin=0.2in]
+    \item Executed an enterprise-wide hardware refresh and data migration project for Tenaga Nasional Berhad (TNB) and the Ministry of Education (MOE), covering 500+ endpoint devices across multiple sites.
+    \item Automated high-speed, secure data backups using Robocopy scripting, achieving zero data loss across all corporate transitions and reducing migration time by an estimated 30\%.
+    \item Provided Tier-2 technical support and coordinated directly with end-users to troubleshoot software and hardware bottlenecks, reducing average resolution time and minimizing operational downtime.
+\end{itemize}
+
+\vspace{0.5em}
+\noindent
+\textbf{PKINK (Perbadanan Kemajuan Iktisad Negeri Kelantan)} \hfill Kota Bharu, Kelantan \\
+\textit{Software Engineer Intern} \hfill Feb 2023 -- Jun 2023
+\begin{itemize}[leftmargin=0.2in]
+    \item Maintained and optimized internal corporate databases and legacy software systems, reducing system latency by identifying and resolving 15+ user-reported bugs.
+    \item Collaborated with senior engineers across the full SDLC (Software Development Life Cycle) to test, deploy, and document new features for enterprise applications.
+\end{itemize}
+
+\vspace{0.5em}
+\noindent
+\textbf{Monaliza (IT Retailer)} \hfill Kota Bharu, Kelantan \\
+\textit{IT Technician \& Tech Advisor} \hfill Sep 2019 -- Dec 2019
+\begin{itemize}[leftmargin=0.2in]
+    \item Diagnosed hardware failures, performed custom PC assemblies, and optimized BIOS/system configurations for 100+ clients, maintaining a high customer satisfaction rate.
+\end{itemize}
+
+%-------------------------------------------------------------------------------
+% Technical Projects
+%-------------------------------------------------------------------------------
+\section*{Technical Projects}
+
+\noindent
+\textbf{Secure Mobile Messaging Application (E2EE)} | \textit{Flutter, Dart, Cryptography} \hfill Oct 2025 -- Jan 2026
+\begin{itemize}[leftmargin=0.2in]
+    \item Architected a cross-platform secure messaging application with a threat model focused on mitigating Man-in-the-Middle (MitM) and replay attacks.
+    \item Engineered a hybrid End-to-End Encryption (E2EE) protocol integrating X25519 (Elliptic Curve Diffie-Hellman) for secure key exchange and ChaCha20-Poly1305 (AEAD) for high-speed authenticated encryption.
+    \item Implemented secure key storage, forward secrecy mechanisms, and message integrity verification to meet modern cryptographic standards.
+\end{itemize}
+
+\vspace{0.5em}
+\noindent
+\textbf{Home Security Lab Environment} | \textit{VirtualBox, Kali Linux, Wazuh, ELK Stack} \hfill 2025 -- Present
+\begin{itemize}[leftmargin=0.2in]
+    \item Built a virtualized security lab to simulate attack and defense scenarios, including network reconnaissance, vulnerability scanning, and log-based threat detection.
+    \item Configured Wazuh SIEM for centralized log ingestion and created custom detection rules aligned with MITRE ATT\&CK techniques (e.g., T1059 Command Scripting, T1078 Valid Accounts).
+\end{itemize}
+
+\vspace{0.5em}
+\noindent
+\textbf{IoT Water Level Detection System} | \textit{Arduino, Firebase, C++} \hfill 2022
+\begin{itemize}[leftmargin=0.2in]
+    \item Developed a real-time C++ based monitoring system utilizing Arduino microcontrollers and ultrasonic sensors for flood early-warning.
+    \item Integrated Firebase Realtime Database to synchronize telemetry data instantly, enabling remote threshold alerts with sub-second latency.
+\end{itemize}
+
+%-------------------------------------------------------------------------------
+% Education
+%-------------------------------------------------------------------------------
+\section*{Education}
+\noindent
+\textbf{Universiti Kuala Lumpur (Malaysian Institute of Information Technology)} \hfill Kuala Lumpur, Malaysia \\
+Bachelor of Information Technology (Hons) in Computer System Security \hfill 2026 \\
+Diploma in Information Technology (CGPA: 3.57) \hfill 2024
+
+\vspace{0.3em}
+\noindent
+\textbf{Kolej Komuniti Gerik} \hfill Perak, Malaysia \\
+Certificate in Information Technology (CGPA: 3.78) \hfill 2020
+
+%-------------------------------------------------------------------------------
+% Certifications & Achievements
+%-------------------------------------------------------------------------------
+\section*{Certifications \& Achievements}
+\begin{itemize}[leftmargin=0.15in, label={}]
+    \item \textbf{Certifications:} Red Hat System Administration I (RH124) | Cisco CCNA: Introduction to Networks
+    \item \textbf{In Progress:} CompTIA Security+ (Expected 2026)
+    \item \textbf{Gold Medal (International):} PIP Learning Innovation Competition for \textit{BOARDPi-KIT} (IoT STEM Framework)
+    \item \textbf{Leadership:} President, Student Representative Council (Led state-level technical and welfare initiatives)
+\end{itemize}
+
+%-------------------------------------------------------------------------------
+% Additional Information
+%-------------------------------------------------------------------------------
+\section*{Additional Information}
+\begin{itemize}[leftmargin=0.15in, label={}]
+    \item \textbf{Driving License:} Class B2 (Motorcycle), Class D (Car)
+    \item \textbf{Languages:} Malay (Native), English (Intermediate)
+    \item \textbf{Availability:} Immediate | Willing to Relocate
+\end{itemize}
+
+\end{document}
