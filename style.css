@@ -763,6 +763,7 @@ body {
   overflow: hidden;
   transition: transform var(--transition-slow), box-shadow var(--transition-slow), opacity var(--transition-slow);
   box-shadow: var(--shadow-lg);
+  transform-style: preserve-3d;
 }
 
 .hero-card::before {
@@ -791,7 +792,7 @@ body {
 
 .hero-card:hover .card-glow { opacity: 0.3; }
 
-.card-content { padding: 24px; position: relative; z-index: 2; }
+.card-content { padding: 24px; position: relative; z-index: 2; transform-style: preserve-3d; }
 
 .card-header {
   display: flex; gap: 6px; margin-bottom: 16px;
