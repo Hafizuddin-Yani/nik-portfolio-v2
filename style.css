@@ -1639,6 +1639,7 @@ body {
   gap: 28px;
 }
 
+.modal-section h3,
 .modal-section h4 {
   font-family: var(--font-mono);
   font-size: 0.8rem;

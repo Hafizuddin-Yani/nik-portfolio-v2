@@ -104,6 +104,13 @@ const Cursor = {
     document.addEventListener('mouseleave', () => this.el.classList.add('hide'));
     document.addEventListener('mouseenter', () => this.el.classList.remove('hide'));
 
+    // Pause on blur/visibility change
+    window.addEventListener('blur', () => this.pause());
+    window.addEventListener('focus', () => this.resume());
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? this.pause() : this.resume();
+    });
+
     // Hover detection
     $$('a, button, .btn, .project-card, .skill-card, .cert-card, .timeline-content, .education-card, .highlight-card, .social-link, .nav-link').forEach(el => {
       el.addEventListener('mouseenter', () => this.setHover(true, el));
@@ -136,6 +143,19 @@ const Cursor = {
     this.ring.style.transform = `translate(${State.cursor.x}px, ${State.cursor.y}px) translate(-50%, -50%)`;
 
     this.rafId = requestAnimationFrame(this.animate.bind(this));
+  },
+
+  pause() {
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+  },
+
+  resume() {
+    if (!this.rafId) {
+      this.animate();
+    }
   }
 };
 
@@ -147,14 +167,23 @@ const Particles = {
   ctx: null,
   particles: [],
   config: { count: 60, maxDist: 140, speed: 0.3 },
+  rafId: null,
+  prefersReducedMotion: false,
 
   init() {
-    if (prefersReducedMotion()) return;
+    this.prefersReducedMotion = prefersReducedMotion();
+    if (this.prefersReducedMotion) return;
     this.canvas = $('#canvas-particles');
+    if (!this.canvas) return;
     this.ctx = this.canvas.getContext('2d');
     this.resize();
     this.createParticles();
     window.addEventListener('resize', debounce(this.resize.bind(this), 250));
+    window.addEventListener('blur', () => this.pause());
+    window.addEventListener('focus', () => this.resume());
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? this.pause() : this.resume();
+    });
     this.animate();
   },
 
@@ -173,39 +202,35 @@ const Particles = {
         vy: rand(-this.config.speed, this.config.speed),
         radius: rand(1, 2.5),
         opacity: rand(0.1, 0.5),
-        hue: Math.random() > 0.5 ? 195 : 150 // cyan or green
+        hue: Math.random() > 0.5 ? 195 : 150
       });
     }
   },
 
   animate() {
+    if (this.prefersReducedMotion) return;
     const ctx = this.ctx;
     const { width, height } = this.canvas;
 
     ctx.clearRect(0, 0, width, height);
 
-    // Update & draw particles
     this.particles.forEach(p => {
       p.x += p.vx;
       p.y += p.vy;
 
-      // Wrap around
       if (p.x < 0) p.x = width;
       if (p.x > width) p.x = 0;
       if (p.y < 0) p.y = height;
       if (p.y > height) p.y = 0;
 
-      // Draw particle
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
       ctx.fillStyle = `hsla(${p.hue}, 100%, 50%, ${p.opacity})`;
       ctx.fill();
     });
 
-    // Draw connections
     this.drawConnections();
-
-    requestAnimationFrame(this.animate.bind(this));
+    this.rafId = requestAnimationFrame(this.animate.bind(this));
   },
 
   drawConnections() {
@@ -229,6 +254,19 @@ const Particles = {
         }
       }
     }
+  },
+
+  pause() {
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+  },
+
+  resume() {
+    if (!this.rafId && !this.prefersReducedMotion) {
+      this.animate();
+    }
   }
 };
 
@@ -241,14 +279,23 @@ const MatrixRain = {
   columns: [],
   fontSize: 14,
   chars: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?',
+  rafId: null,
+  prefersReducedMotion: false,
 
   init() {
-    if (prefersReducedMotion()) return;
+    this.prefersReducedMotion = prefersReducedMotion();
+    if (this.prefersReducedMotion) return;
     this.canvas = $('#canvas-matrix');
+    if (!this.canvas) return;
     this.ctx = this.canvas.getContext('2d');
     this.resize();
     this.initColumns();
     window.addEventListener('resize', debounce(this.resize.bind(this), 250));
+    window.addEventListener('blur', () => this.pause());
+    window.addEventListener('focus', () => this.resume());
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? this.pause() : this.resume();
+    });
     this.animate();
   },
 
@@ -268,7 +315,6 @@ const MatrixRain = {
         opacity: rand(0.02, 0.08),
         chars: []
       };
-      // Pre-generate chars
       for (let j = 0; j < 20; j++) {
         this.columns[i].chars[j] = this.chars[randInt(0, this.chars.length - 1)];
       }
@@ -276,6 +322,7 @@ const MatrixRain = {
   },
 
   animate() {
+    if (this.prefersReducedMotion) return;
     const ctx = this.ctx;
     const { width, height } = this.canvas;
 
@@ -289,7 +336,6 @@ const MatrixRain = {
     this.columns.forEach((col, i) => {
       const x = i * this.fontSize;
 
-      // Draw trailing characters
       col.chars.forEach((char, j) => {
         const y = col.y + j * this.fontSize;
         if (y > height) return;
@@ -300,10 +346,8 @@ const MatrixRain = {
         ctx.fillText(char, x, y);
       });
 
-      // Update position
       col.y += col.speed;
 
-      // Reset column
       if (col.y > height + 200) {
         col.y = rand(-200, 0);
         col.speed = rand(0.5, 2);
@@ -311,7 +355,20 @@ const MatrixRain = {
       }
     });
 
-    requestAnimationFrame(this.animate.bind(this));
+    this.rafId = requestAnimationFrame(this.animate.bind(this));
+  },
+
+  pause() {
+    if (this.rafId) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = null;
+    }
+  },
+
+  resume() {
+    if (!this.rafId && !this.prefersReducedMotion) {
+      this.animate();
+    }
   }
 };
 
@@ -345,7 +402,7 @@ const Navigation = {
 
   init() {
     this.navbar = $('.navbar');
-    this.menu = $('.nav-menu');
+    this.menu = $('.nav-center');
     this.toggle = $('.nav-toggle');
     this.links = $$('.nav-link');
 
@@ -375,14 +432,14 @@ const Navigation = {
   },
 
   toggleMenu() {
-    const open = this.menu.classList.toggle('active');
+    const open = this.menu.classList.toggle('open');
     this.toggle.classList.toggle('active');
     this.toggle.setAttribute('aria-expanded', open);
     document.body.style.overflow = open ? 'hidden' : '';
   },
 
   closeMenu() {
-    this.menu.classList.remove('active');
+    this.menu.classList.remove('open');
     this.toggle.classList.remove('active');
     this.toggle.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
@@ -420,6 +477,8 @@ const SmoothScroll = {
           const offset = 80;
           const targetPos = target.getBoundingClientRect().top + window.scrollY - offset;
           window.scrollTo({ top: targetPos, behavior: 'smooth' });
+          // Update URL hash without jumping
+          window.history.pushState(null, '', href);
         }
       });
     });
@@ -555,29 +614,6 @@ const CounterAnimation = {
 
       requestAnimationFrame(animate);
     });
-  }
-};
-
-// ============================================================================
-// SCROLL REVEAL
-// ============================================================================
-const ScrollReveal = {
-  init() {
-    if (prefersReducedMotion()) {
-      $$('.reveal').forEach(el => el.classList.add('visible'));
-      return;
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-    $$('.reveal').forEach(el => observer.observe(el));
   }
 };
 
@@ -819,6 +855,7 @@ const ProjectModals = {
   closeBtn: null,
   backdrop: null,
   currentProject: null,
+  lastFocusedElement: null,
 
   projects: {
     'secure-messaging': {
@@ -835,8 +872,8 @@ const ProjectModals = {
         'Zero-knowledge architecture: server cannot decrypt messages',
         'Offline-first design with encrypted local database (SQLCipher)'
       ],
-      github: '#',
-      demo: '#'
+      github: 'https://github.com/Hafizuddin-Yani',
+      demo: null
     },
     'security-lab': {
       title: 'Home Security Lab Environment',
@@ -852,8 +889,8 @@ const ProjectModals = {
         'Attack simulation: Atomic Red Team, Caldera, custom scripts',
         'Blue team practice: log analysis, threat hunting, incident response playbooks'
       ],
-      github: '#',
-      demo: '#'
+      github: 'https://github.com/Hafizuddin-Yani',
+      demo: null
     },
     'iot-water': {
       title: 'IoT Water Level Detection System',
@@ -869,8 +906,8 @@ const ProjectModals = {
         'Multi-sensor support for distributed monitoring',
         'Gold Medal - PIP Learning Innovation Competition (BOARDPi-KIT)'
       ],
-      github: '#',
-      demo: '#'
+      github: 'https://github.com/Hafizuddin-Yani',
+      demo: null
     }
   },
 
@@ -899,6 +936,7 @@ const ProjectModals = {
     if (!project) return;
 
     this.currentProject = projectId;
+    this.lastFocusedElement = document.activeElement;
     this.content.innerHTML = this.render(project);
     this.modal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -909,32 +947,48 @@ const ProjectModals = {
     this.modal.classList.remove('open');
     document.body.style.overflow = '';
     this.currentProject = null;
+    this.lastFocusedElement?.focus?.();
+    this.lastFocusedElement = null;
   },
 
   render(p) {
+    const links = [
+      p.github ? `
+        <a href="${p.github}" class="modal-link secondary" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-github" aria-hidden="true"></i> GitHub Profile
+        </a>` : '',
+      p.demo ? `
+        <a href="${p.demo}" class="modal-link primary" target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-external-link-alt" aria-hidden="true"></i> Live Demo
+        </a>` : ''
+    ].join('');
+
     return `
       <header class="modal-header">
-        <span class="modal-type">${p.type}</span>
-        <h2 id="modal-title">${p.title}</h2>
-        <span class="modal-date">${p.period}</span>
+        <div class="modal-meta">
+          <span class="modal-type">${p.type}</span>
+          <span class="modal-date">${p.period}</span>
+        </div>
+        <h2 id="modal-title" class="modal-title">${p.title}</h2>
       </header>
       <div class="modal-body">
-        <div class="modal-tech">
-          ${p.tech.map(t => `<span>${t}</span>`).join('')}
-        </div>
-        <p class="modal-desc">${p.description}</p>
-        <h3>Key Achievements</h3>
-        <ul class="modal-highlights">
-          ${p.highlights.map(h => `<li>${h}</li>`).join('')}
-        </ul>
-        <div class="modal-links">
-          <a href="${p.github}" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-github" aria-hidden="true"></i> Source Code
-          </a>
-          <a href="${p.demo}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-external-link-alt" aria-hidden="true"></i> Live Demo
-          </a>
-        </div>
+        <section class="modal-section">
+          <h3>Technologies</h3>
+          <div class="modal-tech-grid">
+            ${p.tech.map(t => `<span class="modal-tech-item">${t}</span>`).join('')}
+          </div>
+        </section>
+        <section class="modal-section">
+          <h3>Overview</h3>
+          <p class="modal-desc">${p.description}</p>
+        </section>
+        <section class="modal-section">
+          <h3>Key Achievements</h3>
+          <ul class="modal-highlights">
+            ${p.highlights.map(h => `<li>${h}</li>`).join('')}
+          </ul>
+        </section>
+        ${links ? `<div class="modal-links">${links}</div>` : ''}
       </div>
     `;
   }
@@ -995,6 +1049,9 @@ const CertScroll = {
   }
 };
 
+// Expose globally for script.js init
+window.CertScroll = CertScroll;
+
 // ============================================================================
 // TERMINAL EASTER EGG
 // ============================================================================
@@ -1033,12 +1090,16 @@ const Terminal = {
     this.input = $('#terminal-input');
     this.toggleBtn = $('#terminal-toggle');
     this.closeBtn = this.overlay.querySelector('.terminal-close');
+    this.focusableElements = null;
+    this.firstFocusable = null;
+    this.lastFocusable = null;
 
     this.toggleBtn.addEventListener('click', () => this.open());
     this.closeBtn.addEventListener('click', () => this.close());
     this.overlay.querySelector('.modal-backdrop')?.addEventListener('click', () => this.close());
 
     this.input.addEventListener('keydown', this.handleInput.bind(this));
+    this.overlay.addEventListener('keydown', this.handleKeyDown.bind(this));
     document.addEventListener('keydown', (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === '`') {
         e.preventDefault();
@@ -1050,13 +1111,56 @@ const Terminal = {
   toggle() { this.overlay.classList.contains('open') ? this.close() : this.open(); },
   open() {
     this.overlay.classList.add('open');
+    this.toggleBtn.setAttribute('aria-expanded', 'true');
+    this.setupFocusTrap();
     this.input.focus();
     this.print('Welcome to nik@portfolio terminal. Type "help" for commands.');
   },
 
   close() {
     this.overlay.classList.remove('open');
+    this.toggleBtn.setAttribute('aria-expanded', 'false');
     this.input.blur();
+    this.removeFocusTrap();
+  },
+
+  setupFocusTrap() {
+    this.focusableElements = this.overlay.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    this.firstFocusable = this.focusableElements[0];
+    this.lastFocusable = this.focusableElements[this.focusableElements.length - 1];
+    this.firstFocusable?.focus();
+  },
+
+  removeFocusTrap() {
+    this.focusableElements = null;
+    this.firstFocusable = null;
+    this.lastFocusable = null;
+  },
+
+  handleKeyDown(e) {
+    if (!this.overlay.classList.contains('open')) return;
+    
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      this.close();
+      return;
+    }
+
+    if (e.key === 'Tab') {
+      if (e.shiftKey) {
+        if (document.activeElement === this.firstFocusable) {
+          e.preventDefault();
+          this.lastFocusable?.focus();
+        }
+      } else {
+        if (document.activeElement === this.lastFocusable) {
+          e.preventDefault();
+          this.firstFocusable?.focus();
+        }
+      }
+    }
   },
 
   handleInput(e) {
@@ -1239,11 +1343,11 @@ function showToast(message, type = 'success') {
 // INITIALIZATION
 // ============================================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  // Wait for GSAP to be available
-  await waitForGSAP();
+  // Give optional animation libraries a short chance to load without blocking the site forever.
+  const animationsReady = await waitForGSAP();
 
   // Initialize in sequence for proper layering
-  await initSequence();
+  await initSequence(animationsReady);
 
   // Download CV button
   $('#download-cv')?.addEventListener('click', downloadCV);
@@ -1258,37 +1362,50 @@ document.addEventListener('DOMContentLoaded', async () => {
   console.log('%c Built with vanilla JS, CSS variables & ❤️ from Kuala Lumpur ', 'color:#8892a4;font-style:italic;');
 });
 
-function waitForGSAP() {
+function waitForGSAP(timeout = 3000) {
   return new Promise(resolve => {
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-      resolve();
-      return;
-    }
+    const ready = () => typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+    if (ready()) return resolve(true);
+
+    let settled = false;
+    const finish = (loaded) => {
+      if (settled) return;
+      settled = true;
+      clearInterval(check);
+      clearTimeout(timeoutId);
+      resolve(loaded);
+    };
+
     const check = setInterval(() => {
-      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        clearInterval(check);
-        resolve();
-      }
+      if (ready()) finish(true);
     }, 50);
+    const timeoutId = setTimeout(() => finish(false), timeout);
   });
 }
 
-async function initSequence() {
+async function initSequence(animationsReady) {
   // Phase 1: Boot sequence (runs its own preloader)
-  if (window.BootSequence) {
+  const canRunBootSequence = animationsReady && window.BootSequence;
+  if (canRunBootSequence) {
     window.BootSequence.init();
+  } else {
+    $('#boot-preloader')?.remove();
+    document.body.classList.add('boot-complete');
+    document.dispatchEvent(new CustomEvent('boot:complete'));
   }
 
   // Wait for boot to complete
-  await new Promise(resolve => {
-    if (document.body.classList.contains('boot-complete')) {
-      resolve();
-    } else {
-      document.addEventListener('boot:complete', resolve, { once: true });
-      // Fallback timeout
-      setTimeout(resolve, 3000);
-    }
-  });
+  if (canRunBootSequence) {
+    await new Promise(resolve => {
+      if (document.body.classList.contains('boot-complete')) {
+        resolve();
+      } else {
+        document.addEventListener('boot:complete', resolve, { once: true });
+        // Fallback timeout
+        setTimeout(resolve, 3000);
+      }
+    });
+  }
 
   // Phase 2: Core systems (parallel)
   Theme.init();
@@ -1301,8 +1418,28 @@ async function initSequence() {
   TypingAnimations.init();
   CounterAnimation.init();
 
+  // Initialize Lenis smooth scroll
+  if (typeof Lenis !== 'undefined') {
+    window.lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+      smoothTouch: false
+    });
+    window.lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      window.lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  // Initialize Prism syntax highlighting
+  if (typeof Prism !== 'undefined') {
+    Prism.highlightAll();
+  }
+
   // Phase 3: Scroll-triggered animations (need GSAP)
-  if (window.ScrollReveal) {
+  if (animationsReady && window.ScrollReveal) {
     window.ScrollReveal.init();
   }
   SkillRadar.init();
@@ -1316,13 +1453,13 @@ async function initSequence() {
   Terminal.init();
 
   // Phase 5: Enhanced animations (after boot)
-  if (window.HeroAnimations) {
+  if (animationsReady && window.HeroAnimations) {
     window.HeroAnimations.init();
   }
-  if (window.MagneticUI) {
+  if (animationsReady && window.MagneticUI) {
     window.MagneticUI.init();
   }
-  if (window.TextFX) {
+  if (animationsReady && window.TextFX) {
     window.TextFX.init();
   }
 

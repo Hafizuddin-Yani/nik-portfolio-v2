@@ -155,19 +155,16 @@ const HeroAnimations = (function() {
     const animateMetrics = () => {
       metricValues.forEach((el, i) => {
         const target = parseInt(el.dataset.count, 10);
-        gsap.fromTo(el,
-          { textContent: 0 },
-          {
-            textContent: target,
-            duration: 1.5,
-            ease: 'power2.out',
-            delay: i * 0.15,
-            snap: { textContent: 1 },
-            onUpdate: function() {
-              el.textContent = Math.round(this.targets()[0].textContent).toLocaleString();
-            }
+        const proxy = { value: 0 };
+        gsap.to(proxy, {
+          value: target,
+          duration: 1.5,
+          ease: 'power2.out',
+          delay: i * 0.15,
+          onUpdate: () => {
+            el.textContent = Math.round(proxy.value).toLocaleString();
           }
-        );
+        });
       });
     };
 

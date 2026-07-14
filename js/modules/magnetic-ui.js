@@ -96,7 +96,27 @@ const MagneticUI = (function() {
       }
     });
 
+    // Pause/resume on blur/focus to prevent memory leaks
+    window.addEventListener('blur', pauseTrail);
+    window.addEventListener('focus', resumeTrail);
+    document.addEventListener('visibilitychange', () => {
+      document.hidden ? pauseTrail() : resumeTrail();
+    });
+
     animateTrail();
+  }
+
+  function pauseTrail() {
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+  }
+
+  function resumeTrail() {
+    if (!rafId) {
+      animateTrail();
+    }
   }
 
   function spawnTrailChar(x, y, container) {

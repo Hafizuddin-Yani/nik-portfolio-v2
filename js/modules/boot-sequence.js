@@ -131,6 +131,8 @@ const BootSequence = (function() {
       const heroActions = document.querySelector('.hero-actions');
       const heroSocials = document.querySelector('.hero-socials');
       const scrollIndicator = document.querySelector('.scroll-indicator');
+      const heroCards = document.querySelectorAll('.hero-card');
+      const heroMetrics = document.querySelectorAll('.metric-value[data-count]');
 
       const tl = gsap.timeline({ onComplete: resolve });
 
@@ -138,18 +140,12 @@ const BootSequence = (function() {
         .from(greeting, { y: 20, opacity: 0, duration: 0.5, ease: 'power3.out' })
         .from(nameLines, {
           y: 50, opacity: 0, duration: 0.7, stagger: 0.12,
-          ease: 'power3.out',
-          onStart: () => nameLines.forEach((line, i) => {
-            gsap.from(line.querySelectorAll('span'), {
-              opacity: 0, y: 20, duration: 0.4, stagger: 0.03, delay: i * 0.12,
-              ease: 'power2.out'
-            });
-          })
+          ease: 'power3.out'
         }, '-=0.3')
         .from(roleText, {
-          duration: 1.2,
-          ease: 'none',
-          onStart: () => startRoleTypewriter(roleText)
+          opacity: 0,
+          duration: 0.5,
+          ease: 'power3.out'
         }, '-=0.4')
         .from(tagline, { y: 20, opacity: 0, duration: 0.5, ease: 'power3.out' }, '-=0.6')
         .from(metaItems, { y: 20, opacity: 0, duration: 0.4, stagger: 0.08, ease: 'power3.out' }, '-=0.4')
@@ -180,42 +176,6 @@ const BootSequence = (function() {
         .from(scrollProgress, { scaleX: 0, transformOrigin: 'left center', duration: 0.4, ease: 'power2.out' }, '-=0.2')
         .call(resolve);
     });
-  }
-
-  function startRoleTypewriter(el) {
-    const roles = [
-      'Cybersecurity & IT Professional',
-      'System Engineer',
-      'Secure Mobile Developer',
-      'SOC Analyst (Aspiring)',
-      'Cloud Infrastructure Enthusiast'
-    ];
-    let roleIndex = 0, charIndex = 0, deleting = false;
-
-    function tick() {
-      const current = roles[roleIndex];
-      if (deleting) {
-        el.textContent = current.substring(0, charIndex - 1);
-        charIndex--;
-      } else {
-        el.textContent = current.substring(0, charIndex + 1);
-        charIndex++;
-      }
-
-      let speed = deleting ? 35 : 70;
-
-      if (!deleting && charIndex === current.length) {
-        speed = 1800;
-        deleting = true;
-      } else if (deleting && charIndex === 0) {
-        deleting = false;
-        roleIndex = (roleIndex + 1) % roles.length;
-        speed = 400;
-      }
-
-      setTimeout(tick, speed);
-    }
-    tick();
   }
 
   function animateCounters(counters) {
