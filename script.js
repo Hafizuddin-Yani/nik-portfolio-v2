@@ -518,7 +518,13 @@ const SmoothScroll = {
           e.preventDefault();
           const offset = 80;
           const targetPos = target.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top: targetPos, behavior: 'smooth' });
+          
+          if (window.lenis) {
+            window.lenis.scrollTo(targetPos);
+          } else {
+            window.scrollTo({ top: targetPos, behavior: 'smooth' });
+          }
+          
           // Update URL hash without jumping
           window.history.pushState(null, '', href);
         }

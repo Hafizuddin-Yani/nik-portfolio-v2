@@ -118,7 +118,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   scroll-padding-top: 90px;
   font-size: 16px;
 }
