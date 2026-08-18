@@ -384,10 +384,12 @@ const ScrollProgress = {
   },
 
   update() {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (scrollTop / docHeight) * 100;
-    this.el.value = progress;
+    requestAnimationFrame(() => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      this.el.value = progress;
+    });
   }
 };
 
@@ -1337,7 +1339,7 @@ function showToast(message, type = 'success') {
 
 // ============================================================================
 // DOWNLOAD CV BUTTON
-// ==================================$('#download-cv')?.addEventListener('click', downloadCV);
+// ============================================================================
 
 // ============================================================================
 // INITIALIZATION
