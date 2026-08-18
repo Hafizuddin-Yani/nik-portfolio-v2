@@ -185,12 +185,22 @@ const HeroAnimations = (function() {
       const content = card.querySelector('.card-content');
       if (!content) return;
 
+      let rect = null, centerX = 0, centerY = 0;
+      
+      card.addEventListener('mouseenter', () => {
+        rect = card.getBoundingClientRect();
+        centerX = rect.width / 2;
+        centerY = rect.height / 2;
+      });
+
       card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
+        if (!rect) {
+          rect = card.getBoundingClientRect();
+          centerX = rect.width / 2;
+          centerY = rect.height / 2;
+        }
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
         const rotateX = (y - centerY) / centerY * 8; // max 8deg
         const rotateY = (centerX - x) / centerX * 8;
 

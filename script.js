@@ -184,7 +184,24 @@ const Particles = {
     document.addEventListener('visibilitychange', () => {
       document.hidden ? this.pause() : this.resume();
     });
-    this.animate();
+    
+    // Performance optimization: Pause when hero section is out of view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.resume();
+        } else {
+          this.pause();
+        }
+      });
+    }, { threshold: 0.05 });
+    
+    const heroSection = $('#hero');
+    if (heroSection) {
+      observer.observe(heroSection);
+    } else {
+      this.animate();
+    }
   },
 
   resize() {
@@ -296,7 +313,24 @@ const MatrixRain = {
     document.addEventListener('visibilitychange', () => {
       document.hidden ? this.pause() : this.resume();
     });
-    this.animate();
+
+    // Performance optimization: Pause when hero section is out of view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.resume();
+        } else {
+          this.pause();
+        }
+      });
+    }, { threshold: 0.05 });
+    
+    const heroSection = $('#hero');
+    if (heroSection) {
+      observer.observe(heroSection);
+    } else {
+      this.animate();
+    }
   },
 
   resize() {
@@ -377,17 +411,23 @@ const MatrixRain = {
 // ============================================================================
 const ScrollProgress = {
   el: null,
+  docHeight: 0,
 
   init() {
     this.el = $('#scroll-progress');
+    this.calcHeight();
+    window.addEventListener('resize', debounce(this.calcHeight.bind(this), 250), { passive: true });
     window.addEventListener('scroll', throttle(this.update.bind(this), 16), { passive: true });
+  },
+
+  calcHeight() {
+    this.docHeight = document.documentElement.scrollHeight - window.innerHeight;
   },
 
   update() {
     requestAnimationFrame(() => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (scrollTop / docHeight) * 100;
+      if (this.docHeight <= 0) return;
+      const progress = (window.scrollY / this.docHeight) * 100;
       this.el.value = progress;
     });
   }

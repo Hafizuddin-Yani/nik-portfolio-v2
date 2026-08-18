@@ -234,6 +234,7 @@ body {
   border-radius: 50%;
   transform: translate(-50%, -50%);
   transition: width var(--transition-fast), height var(--transition-fast), background var(--transition-fast);
+  will-change: transform;
 }
 
 .cursor-ring {
@@ -244,6 +245,7 @@ body {
   transform: translate(-50%, -50%);
   transition: width var(--transition), height var(--transition), border-color var(--transition), opacity var(--transition);
   opacity: 0.6;
+  will-change: transform;
 }
 
 .cursor-text {
@@ -2549,3 +2551,6 @@ body {
   .section-title { font-size: clamp(1.75rem, 5vw, 2.5rem); }
   .btn { padding: 12px 24px; font-size: 0.8rem; }
 }
+
+/* ===== OPTIMIZATIONS ===== */
+.hero-greeting, .hero-role { contain: layout; }
