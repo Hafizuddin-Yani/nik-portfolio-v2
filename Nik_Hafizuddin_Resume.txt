@@ -1,0 +1,64 @@
+NIK HAFIZUDDIN BIN N AHMAD YANI
+Kuala Lumpur, Malaysia | hafizuddinyani@gmail.com | +6011-1990 3157
+LinkedIn: /in/nik-hafizuddin-yani | GitHub: /Hafizuddin-Yani | Portfolio: hafizuddin-yani.github.io
+
+CAREER PROFILE
+Cybersecurity and Information Technology graduate (B.Sc. Hons) with hands-on experience in system engineering, secure mobile development, and network infrastructure. Proven ability to execute enterprise-scale IT operations, including complex hardware migrations across 500+ endpoints for national utility providers. Certified in Red Hat (RH124) and Cisco (CCNA), with practical knowledge of vulnerability assessment, cryptographic protocols, and incident response methodologies. Seeking to leverage technical expertise in a SOC Analyst, Cloud Infrastructure, or Software Engineering role.
+
+TECHNICAL SKILLS
+- Languages: Dart, Python, C++, HTML/CSS, PHP, Java, Bash, PowerShell
+- Offensive Security & OSINT: Metasploit, Nmap, Burp Suite, OWASP ZAP, Maltego, MITRE ATT&CK Framework
+- Network & Vulnerability Analysis: Wireshark, Nessus, tcpdump, Cisco IOS, Firewall Configuration
+- SIEM & Monitoring: Wazuh, ELK Stack, Log Analysis, Incident Triage
+- Hardware & IT Operations: PC/Laptop Assembly, Component-Level Diagnostics, BIOS/UEFI Optimization
+- Development Tools: Git, VS Code, Flutter SDK, Firebase, AI-Assisted Development Workflows
+- Operating Systems: Linux (Kali, Ubuntu, Red Hat), Windows Server, macOS
+
+PROFESSIONAL EXPERIENCE
+Beyond2u Sdn Bhd (Kuala Lumpur, Malaysia)
+System Engineer Intern (PMO Team) | Mar 2026 - Jun 2026
+- Executed an enterprise-wide hardware refresh and data migration project for Tenaga Nasional Berhad (TNB) and the Ministry of Education (MOE), covering 500+ endpoint devices across multiple sites.
+- Automated high-speed, secure data backups using Robocopy scripting, achieving zero data loss across all corporate transitions and reducing migration time by an estimated 30%.
+- Provided Tier-2 technical support and coordinated directly with end-users to troubleshoot software and hardware bottlenecks, reducing average resolution time and minimizing operational downtime.
+
+PKINK (Perbadanan Kemajuan Iktisad Negeri Kelantan) (Kota Bharu, Kelantan)
+Software Engineer Intern | Feb 2023 - Jun 2023
+- Maintained and optimized internal corporate databases and legacy software systems, reducing system latency by identifying and resolving 15+ user-reported bugs.
+- Collaborated with senior engineers across the full SDLC to test, deploy, and document new features for enterprise applications.
+
+Monaliza (IT Retailer) (Kota Bharu, Kelantan)
+IT Technician & Tech Advisor | Sep 2019 - Dec 2019
+- Diagnosed hardware failures, performed custom PC assemblies, and optimized BIOS/system configurations for 100+ clients, maintaining a high customer satisfaction rate.
+
+TECHNICAL PROJECTS
+Secure Mobile Messaging Application (E2EE) | Flutter, Dart, Cryptography | Oct 2025 - Jan 2026
+- Architected a cross-platform secure messaging application with a threat model focused on mitigating Man-in-the-Middle (MitM) and replay attacks.
+- Engineered a hybrid End-to-End Encryption (E2EE) protocol integrating X25519 for secure key exchange and ChaCha20-Poly1305 (AEAD) for high-speed authenticated encryption.
+- Implemented secure key storage, forward secrecy mechanisms, and message integrity verification to meet modern cryptographic standards.
+
+Home Security Lab Environment | VirtualBox, Kali Linux, Wazuh, ELK Stack | 2025 - Present
+- Built a virtualized security lab to simulate attack and defense scenarios, including network reconnaissance, vulnerability scanning, and log-based threat detection.
+- Configured Wazuh SIEM for centralized log ingestion and created custom detection rules aligned with MITRE ATT&CK techniques.
+
+IoT Water Level Detection System | Arduino, Firebase, C++ | 2022
+- Developed a real-time C++ based monitoring system utilizing Arduino microcontrollers and ultrasonic sensors for flood early-warning.
+- Integrated Firebase Realtime Database to synchronize telemetry data instantly, enabling remote threshold alerts with sub-second latency.
+
+EDUCATION
+Universiti Kuala Lumpur (Malaysian Institute of Information Technology)
+Bachelor of Information Technology (Hons) in Computer System Security | 2026
+Diploma in Information Technology (CGPA: 3.57) | 2024
+
+Kolej Komuniti Gerik
+Certificate in Information Technology (CGPA: 3.78) | 2020
+
+CERTIFICATIONS & ACHIEVEMENTS
+- Certifications: Red Hat System Administration I (RH124) | Cisco CCNA: Introduction to Networks
+- In Progress: CompTIA Security+ (Expected 2026)
+- Gold Medal (International): PIP Learning Innovation Competition for BOARDPi-KIT (IoT STEM Framework)
+- Leadership: President, Student Representative Council (Led state-level technical and welfare initiatives)
+
+ADDITIONAL INFORMATION
+- Driving License: Class B2 (Motorcycle), Class D (Car)
+- Languages: Malay (Native), English (Intermediate)
+- Availability: Immediate | Willing to Relocate
